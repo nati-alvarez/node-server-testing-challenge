@@ -1,7 +1,7 @@
 const db = require("../data/db");
 
 module.exports = {
-    getAll();
+    getAll
 };
 
 function getAll(){
