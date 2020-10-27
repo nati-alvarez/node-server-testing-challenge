@@ -34,5 +34,18 @@ describe("pet stores model", ()=>{
             const stores = await db("Pet_Store");
             expect(stores.length).toEqual(1);
         });
+
+        it("Should insert new store into db", async()=>{
+            const newStore = {id: 1, name: "Petco", address: '123 Place Ln', specialty: "Pet grooming"};
+            await petStoresModel.addStore(newStore);
+            const stores = await db("Pet_Store");
+            expect(stores[0]).toEqual(newStore);
+        });
+
+        it("Should return the newly created store", async()=>{
+            const newStore = {id: 1, name: "Petco", address: '123 Place Ln', specialty: "Pet grooming"};
+            const store = await petStoresModel.addStore(newStore);
+            expect(store).toEqual(newStore);
+        });
     })
 })
