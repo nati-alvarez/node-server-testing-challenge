@@ -26,4 +26,13 @@ describe("pet stores model", ()=>{
             expect(stores.length).toEqual(1);
         })
     });
+
+    describe("addStore", ()=>{
+        it("Should increase number of stores in db by 1", async()=>{
+            const newStore = {id: 1, name: "Petco", address: '123 Place Ln', specialty: "Pet grooming"};
+            await petStoresModel.addStore(newStore);
+            const stores = await db("Pet_Store");
+            expect(stores.length).toEqual(1);
+        });
+    })
 })
