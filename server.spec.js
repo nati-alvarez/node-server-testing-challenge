@@ -3,6 +3,10 @@ const server = require("./server.js");
 const db = require("./data/db");
 
 describe("server.js", ()=>{
+    beforeEach(async()=>{
+        await db("Pet_Store").truncate();
+    });
+
     describe("pet-stores GET route", ()=>{
         it("Should respond with 200 status code", async()=>{
             const response = await request(server).get("/pet-stores");
@@ -21,10 +25,6 @@ describe("server.js", ()=>{
     });
     
     describe("pet-stores POST route", ()=>{
-        beforeEach(async()=>{
-            await db("Pet_Store").truncate();
-        });
-
         it("Should respond with 201 status code on successful insertion", async()=>{
             const body = {id: 1, name: "Petco", address: '123 Place Ln', specialty: "Pet grooming"};
             const response = await request(server).post("/pet-stores").send(body);
@@ -59,17 +59,18 @@ describe("server.js", ()=>{
             await db("Pet_Store").insert({id: 1, name: "Petco", address: "123 Place Ln", specialty: "Pet grooming"});
         });
 
-        it("Should respond with 204 status code on successful delete", async()=>{
+        it("Should respond with 200 status code on successful delete", async()=>{
             const response = await request(server).delete("/pet-stores/1");
 
-            expect(response.status).toEqual(204);
+            expect(response.status).toEqual(200);
         });
 
         it("Should return success message on successful delete", async()=>{
             const expectedResponse = {message: "Deleted successfully"};
             const response = await request(server).delete("/pet-stores/1");
-
+            console.log(response.status);
             expect(response.body).toEqual(expectedResponse);
+            
         });
 
         it("Should return 400 status code with error message if not given valid id", async()=>{
